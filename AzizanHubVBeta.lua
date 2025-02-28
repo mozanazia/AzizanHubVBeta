@@ -1,32 +1,24 @@
 repeat wait() until game:IsLoaded()
 
-print("🔥 AzizanHub Loaded - Fishing Like a Pro!")
+print("🔥 XaxxHub Loaded - Let’s Fish Like a Pro!")
 
 local player = game.Players.LocalPlayer
-local PlayerGui = player:WaitForChild("PlayerGui")
+local StarterGui = game:GetService("StarterGui")
+local PlayerGui = player:FindFirstChild("PlayerGui") or player:WaitForChild("PlayerGui")
 
--- Auto Detect RemoteEvent
-local function findEvent(name)
-    for _, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
-        if v:IsA("RemoteEvent") and string.find(v.Name:lower(), name:lower()) then
-            return v
-        end
-    end
-    return nil
-end
-
-local castEvent = findEvent("Cast")
-local reelEvent = findEvent("Reel")
-local shakeEvent = findEvent("Shake")
-local sellEvent = findEvent("Sell")
-
-if not castEvent or not reelEvent or not shakeEvent then
-    warn("AzizanHub: RemoteEvent not found! Check event names.")
+if not PlayerGui then
+    warn("XaxxHub: PlayerGui not found, forcing UI...")
+    StarterGui:SetCore("SendNotification", {
+        Title = "XaxxHub",
+        Text = "PlayerGui not found! Restart game if UI doesn’t appear.",
+        Duration = 5
+    })
     return
 end
 
 -- UI Setup
 local ScreenGui = Instance.new("ScreenGui")
+ScreenGui.ResetOnSpawn = false
 ScreenGui.Parent = PlayerGui
 
 local Frame = Instance.new("Frame")
@@ -44,13 +36,35 @@ UICorner.Parent = Frame
 local Title = Instance.new("TextLabel")
 Title.Size = UDim2.new(1, 0, 0, 40)
 Title.BackgroundTransparency = 1
-Title.Text = "AzizanHub - Fishing Master"
+Title.Text = "XaxxHub - Fishing Master"
 Title.TextColor3 = Color3.fromRGB(255, 255, 255)
 Title.Font = Enum.Font.SourceSansBold
 Title.TextSize = 22
 Title.Parent = Frame
 
--- Modular System for Features
+print("✅ UI Loaded Successfully!")
+
+-- Auto Detect RemoteEvent
+local function findEvent(name)
+    for _, v in pairs(game:GetService("ReplicatedStorage"):GetChildren()) do
+        if v:IsA("RemoteEvent") and string.find(v.Name:lower(), name:lower()) then
+            return v
+        end
+    end
+    return nil
+end
+
+local castEvent = findEvent("Cast")
+local reelEvent = findEvent("Reel")
+local shakeEvent = findEvent("Shake")
+local sellEvent = findEvent("Sell")
+
+if not castEvent or not reelEvent or not shakeEvent then
+    warn("XaxxHub: RemoteEvent not found! Check event names.")
+    return
+end
+
+-- Feature Toggle System
 local function createToggle(name, position, callback)
     local Label = Instance.new("TextLabel")
     Label.Size = UDim2.new(0, 180, 0, 30)
@@ -82,7 +96,7 @@ local function createToggle(name, position, callback)
     end)
 end
 
--- Core Features
+-- OP Fishing Features
 local function autoCast(enabled)
     while enabled do
         castEvent:FireServer()
@@ -119,26 +133,25 @@ local function autoSell(enabled)
     end
 end
 
--- Advanced AI Fishing
+-- Smart AI Fishing
 local function smartFishPrediction(enabled)
     while enabled do
-        -- Simulate waiting for the best time to reel in
         wait(math.random(1, 3))
         reelEvent:FireServer()
     end
 end
 
--- Ghost Mode (Anti-Ban)
+-- Anti-Ban System
 local function bypassIPBan(enabled)
     if enabled then
-        print("AzizanHub: IP Bypass Active!")
+        print("XaxxHub: IP Bypass Active!")
         -- Implement Proxy Switcher
     end
 end
 
 local function bypassHWIDBan(enabled)
     if enabled then
-        print("AzizanHub: HWID Bypass Active!")
+        print("XaxxHub: HWID Bypass Active!")
         -- Implement HWID Spoofer
     end
 end
@@ -146,7 +159,7 @@ end
 -- Remote Control (Web Dashboard)
 local function webDashboard(enabled)
     if enabled then
-        print("AzizanHub: Web Dashboard Active!")
+        print("XaxxHub: Web Dashboard Active!")
         -- Implement Web Panel
     end
 end
